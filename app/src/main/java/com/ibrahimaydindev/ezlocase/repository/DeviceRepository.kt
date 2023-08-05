@@ -7,6 +7,7 @@ import com.ibrahimaydindev.ezlocase.model.Device
 class DeviceRepository(val db : DeviceDatabase) {
     fun getAllDevices() = db.getDeviceDao().getAllDevices()
     suspend fun insertDevice(device: Device) = db.getDeviceDao().insertDevice(device)
-    suspend fun deleteDevice(device: Device) = db.getDeviceDao().deleteArticle(device)
+    suspend fun deleteDevice(device: Device) = db.getDeviceDao().deleteDevice(device)
     suspend fun getRealDevices() = RetrofitInstance.api.getIoties()
+    suspend fun deleteAllDevices() = db.getDeviceDao().deleteAllDevices()
 }
