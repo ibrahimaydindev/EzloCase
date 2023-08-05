@@ -18,6 +18,7 @@ import com.ibrahimaydindev.ezlocase.R
 import com.ibrahimaydindev.ezlocase.activity.MainActivity
 import com.ibrahimaydindev.ezlocase.adapter.DeviceAdapter
 import com.ibrahimaydindev.ezlocase.databinding.FragmentDevicesBinding
+import com.ibrahimaydindev.ezlocase.repository.DeviceRepository
 import com.ibrahimaydindev.ezlocase.util.Resource
 import com.ibrahimaydindev.ezlocase.viewmodel.DeviceViewModel
 
@@ -26,6 +27,7 @@ class DevicesFragment : Fragment(R.layout.fragment_devices) {
     private lateinit var deviceBinding: FragmentDevicesBinding
     private lateinit var deviceViewModel: DeviceViewModel
     lateinit var deviceAdapter: DeviceAdapter
+
     var isLoading = false
     var isLastPage = false
     var isScrolling = false
@@ -36,6 +38,7 @@ class DevicesFragment : Fragment(R.layout.fragment_devices) {
         deviceBinding = binding
         deviceViewModel = (activity as MainActivity).viewModel
         deviceAdapter = DeviceAdapter()
+        observeLiveData()
         setupRecyclerView()
         deviceAdapter.setOnItemClickListener {
             val bundle = Bundle().apply {
@@ -46,30 +49,7 @@ class DevicesFragment : Fragment(R.layout.fragment_devices) {
                 bundle
             )
         }
-
-        deviceViewModel.getDevices.observe(viewLifecycleOwner, Observer { response ->
-            when (response) {
-                is Resource.Success -> {
-                    hideProgressBar()
-                    response.data?.let { deviceResponse ->
-                        deviceAdapter.differ.submitList(deviceResponse.Devices.toList())
-                    }
-                }
-
-                is Resource.Error -> {
-                    hideProgressBar()
-                    response.message?.let { message ->
-                        Log.e(TAG, "Error : $message")
-                    }
-                }
-
-                is Resource.Loading -> {
-                    showProgressBar()
-                }
-            }
-        })
     }
-
     private fun setupRecyclerView() {
         deviceBinding.recyclerView.apply {
             adapter = deviceAdapter
@@ -115,4 +95,28 @@ class DevicesFragment : Fragment(R.layout.fragment_devices) {
         }
     }
 
+    private fun observeLiveData() {
+        deviceViewModel.getDevices.observe(viewLifecycleOwner, Observer { response ->
+            when (response) {
+                is Resource.Success -> {
+                    hideProgressBar()
+                    response.data?.let { deviceResponse ->
+                        deviceAdapter.differ.submitList(deviceResponse.Devices.toList())
+                    }
+                }
+
+                is Resource.Error -> {
+                    hideProgressBar()
+                    response.message?.let { message ->
+                        Log.e(TAG, "Error : $message")
+                    }
+                }
+
+                is Resource.Loading -> {
+                    showProgressBar()
+                }
+            }
+        })
+    }
 }
+

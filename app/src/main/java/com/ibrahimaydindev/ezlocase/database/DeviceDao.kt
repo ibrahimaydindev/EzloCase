@@ -18,5 +18,8 @@ interface DeviceDao {
     suspend fun insertDevice(device: Device)
 
     @Delete
-    suspend fun deleteArticle(device: Device)
+    suspend fun deleteDevice(device: Device)
+
+    @Query("DELETE  FROM devices")
+    suspend fun deleteAllDevices()
 }

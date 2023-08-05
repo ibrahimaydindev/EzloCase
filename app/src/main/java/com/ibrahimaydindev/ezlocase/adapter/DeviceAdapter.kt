@@ -1,8 +1,10 @@
 package com.ibrahimaydindev.ezlocase.adapter
 
+import android.app.AlertDialog
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
@@ -44,12 +46,56 @@ class DeviceAdapter : RecyclerView.Adapter<DeviceViewHolder>() {
         val devices = differ.currentList[position]
         holder.itemView.apply {
 
+            when (devices.Platform) {
+                "Sercomm G450" -> {
+                    findViewById<ImageView>(R.id.deviceImage).setImageResource(R.drawable.vera_plus_big)
+                }
+
+                "Sercomm G550" -> {
+                    findViewById<ImageView>(R.id.deviceImage).setImageResource(R.drawable.vera_secure_big)
+                }
+
+                "MiCasaVerde VeraLite" -> {
+                    findViewById<ImageView>(R.id.deviceImage).setImageResource(R.drawable.vera_edge_big)
+                }
+
+                "Sercomm NA900" -> {
+                    findViewById<ImageView>(R.id.deviceImage).setImageResource(R.drawable.vera_edge_big)
+                }
+
+                "Sercomm NA301" -> {
+                    findViewById<ImageView>(R.id.deviceImage).setImageResource(R.drawable.vera_edge_big)
+                }
+
+                "Sercomm NA930" -> {
+                    findViewById<ImageView>(R.id.deviceImage).setImageResource(R.drawable.vera_edge_big)
+                }
+
+                else -> {
+                    findViewById<ImageView>(R.id.deviceImage).setImageResource(R.drawable.vera_edge_big)
+                }
+            }
+
             findViewById<TextView>(R.id.deviceHomeNumber).text = devices.Platform
             findViewById<TextView>(R.id.deviceSnNumber).text = devices.MacAddress
             setOnClickListener {
                 onItemClickListener?.let {
                     it(devices)
                 }
+            }
+            setOnLongClickListener {
+                val builder = AlertDialog.Builder(context)
+                builder.setTitle("Delete Device")
+                builder.setMessage("Are you sure you want to delete this device?")
+                builder.setPositiveButton("Yes") { dialog, which ->
+                    differ.currentList.removeAt(position)
+                }
+                builder.setNegativeButton("No") { dialog, which ->
+                    dialog.dismiss()
+                }
+                builder.show()
+                true
+
             }
         }
     }
@@ -60,4 +106,6 @@ class DeviceAdapter : RecyclerView.Adapter<DeviceViewHolder>() {
     }
 
     private var onItemClickListener: ((Device) -> Unit)? = null
+
+
 }
