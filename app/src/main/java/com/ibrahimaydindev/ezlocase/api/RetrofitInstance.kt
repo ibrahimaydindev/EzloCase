@@ -1,6 +1,6 @@
 package com.ibrahimaydindev.ezlocase.api
 
-import com.ibrahimaydindev.util.Utils.Companion.BASE_URL
+import com.ibrahimaydindev.ezlocase.util.Utils.Companion.BASE_URL
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/devicesFragment">
+
+    <fragment
+        android:id="@+id/devicesFragment"
+        android:name="com.ibrahimaydindev.ezlocase.fragment.DevicesFragment"
+        android:label="fragment_devices"
+        tools:layout="@layout/fragment_devices" >
+        <action
+            android:id="@+id/action_devicesFragment_to_detailFragment"
+            app:destination="@id/detailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailFragment"
+        android:name="com.ibrahimaydindev.ezlocase.fragment.DetailFragment"
+        android:label="fragment_detail"
+        tools:layout="@layout/fragment_detail" >
+        <argument
+            android:name="devices"
+            app:argType="com.ibrahimaydindev.ezlocase.model.Device" />
+        <action
+            android:id="@+id/action_detailFragment_to_devicesFragment"
+            app:destination="@id/devicesFragment" />
+    </fragment>
+</navigation>

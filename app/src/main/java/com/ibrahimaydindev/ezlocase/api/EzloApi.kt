@@ -7,5 +7,5 @@ import retrofit2.http.GET
 
 interface EzloApi {
     @GET("test_android/items.test")
-    suspend fun getIoties() : Response<List<Iot>>
+    suspend fun getIoties() : Response<Iot>
 }

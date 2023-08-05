@@ -1,4 +1,4 @@
-package com.ibrahimaydindev.util
+package com.ibrahimaydindev.ezlocase.util
 
 class  Utils {
     companion object {
