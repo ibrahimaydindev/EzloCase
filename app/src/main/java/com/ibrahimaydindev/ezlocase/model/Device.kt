@@ -1,6 +1,7 @@
 package com.ibrahimaydindev.ezlocase.model
 
 import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
@@ -19,6 +20,7 @@ data class Device(
     val MacAddress: String,
     @SerializedName("PK_Account")
     val PK_Account: Int,
+    @PrimaryKey(autoGenerate = false)
     @SerializedName("PK_Device")
     val PK_Device: Int,
     @SerializedName("PK_DeviceSubType")
