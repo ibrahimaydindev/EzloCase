@@ -9,6 +9,7 @@
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="0dp"
+        android:background="#D3D3D3"
         android:layout_height="wrap_content"
         android:layout_marginBottom="1dp"
         android:orientation="vertical"
@@ -19,10 +20,11 @@
 
 
         <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:src="@drawable/ic_launcher_background">
+            android:layout_width="140dp"
+            android:layout_height="140dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="40dp"
+            android:background="@drawable/rounded_button">
 
         </ImageView>
 
@@ -30,8 +32,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_margin="20dp"
-            android:text="JOHN WAYNE"
+            android:text="John Wayne"
+            android:textStyle="bold"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
             android:textAlignment="center"
             android:textSize="30dp">
 
