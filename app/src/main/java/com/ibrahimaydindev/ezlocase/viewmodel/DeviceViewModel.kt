@@ -20,7 +20,6 @@ class DeviceViewModel(
     init {
        getDevices()
     }
-
     private fun handleDevicesResponse(response: Response<Deviceresponse>): Resource<Deviceresponse> {
         if (response.isSuccessful) {
             response.body()?.let { resultResponse ->
