@@ -20,7 +20,6 @@ data class Device(
     val MacAddress: String,
     @SerializedName("PK_Account")
     val PK_Account: Int,
-    @PrimaryKey(autoGenerate = false)
     @SerializedName("PK_Device")
     val PK_Device: Int,
     @SerializedName("PK_DeviceSubType")
@@ -35,4 +34,7 @@ data class Device(
     val Server_Device: String,
     @SerializedName("Server_Event")
     val Server_Event: String
-) : Serializable
+) : Serializable {
+    @PrimaryKey(autoGenerate = true)
+    var id: Int? = null
+}

@@ -1,5 +1,5 @@
 package com.ibrahimaydindev.ezlocase.model
 
-data class Iot(
+data class Deviceresponse(
     val Devices: MutableList<Device>
-)
+    )
