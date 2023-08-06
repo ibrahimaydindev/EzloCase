@@ -1,7 +1,6 @@
 package com.ibrahimaydindev.ezlocase.database
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
@@ -22,4 +21,7 @@ interface DeviceDao {
 
     @Query("DELETE  FROM devices")
     suspend fun deleteAllDevices()
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAllDevices (devices: MutableList<Device>)
 }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -28,20 +29,14 @@
                 android:id="@+id/deviceDetailHomeNumber"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_marginTop="50dp"
+                android:layout_marginStart="5dp"
                 android:maxLines="2"
                 android:text="TextView"
                 android:textAlignment="textStart"
                 android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/newsDescrssiption"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:maxLines="3"
-                android:text="TextView"
-                android:textAlignment="textStart" />
+
 
         </LinearLayout>
 
@@ -86,7 +81,7 @@
 
         <TextView
             android:id="@+id/deviceFirmwareDetail"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:maxLines="2"
@@ -96,13 +91,25 @@
 
         <TextView
             android:id="@+id/deviceModelDetail"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:maxLines="3"
             android:text="TextView"
             android:textAlignment="textStart" />
 
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/floatingActionButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_margin="20dp"
+                android:clickable="true"
+                android:src="@android:drawable/ic_menu_edit" />
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
     </LinearLayout>
 
 

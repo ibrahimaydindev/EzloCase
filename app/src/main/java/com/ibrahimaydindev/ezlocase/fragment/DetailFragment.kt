@@ -6,7 +6,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import com.ibrahimaydindev.ezlocase.R
 import com.ibrahimaydindev.ezlocase.activity.MainActivity
 import com.ibrahimaydindev.ezlocase.databinding.FragmentDetailBinding
@@ -40,39 +39,53 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
 
         if (bundle != null) {
             if (bundle.getSerializable("device") != null) {
+
                 val device = bundle.getSerializable("device") as Device
                 deviceBinding.apply {
                     when (device.Platform) {
                         "Sercomm G450" -> {
                             binding.deviceDetailImage.setImageResource(R.drawable.vera_plus_big)
+                            binding.deviceModelDetail.text = "Vera Plus Big"
                         }
+
                         "Sercomm G550" -> {
                             binding.deviceDetailImage.setImageResource(R.drawable.vera_secure_big)
+                            binding.deviceModelDetail.text = "Vera Secure Big"
                         }
+
                         "MiCasaVerde VeraLite" -> {
                             binding.deviceDetailImage.setImageResource(R.drawable.vera_edge_big)
+                            binding.deviceModelDetail.text = "Vera Edge Big"
                         }
+
                         "Sercomm NA900" -> {
                             binding.deviceDetailImage.setImageResource(R.drawable.vera_edge_big)
+                            binding.deviceModelDetail.text = "Vera Edge Big"
                         }
+
                         "Sercomm NA301" -> {
                             binding.deviceDetailImage.setImageResource(R.drawable.vera_edge_big)
+                            binding.deviceModelDetail.text = "Vera Edge Big"
                         }
+
                         "Sercomm NA930" -> {
                             binding.deviceDetailImage.setImageResource(R.drawable.vera_edge_big)
+                            binding.deviceModelDetail.text = "Vera Edge Big"
                         }
+
                         else -> {
                             binding.deviceDetailImage.setImageResource(R.drawable.vera_edge_big)
+                            binding.deviceModelDetail.text = "Vera Edge Big"
                         }
                     }
-                    binding.deviceMacDetail.setText("MAC Adress:"+device.MacAddress)
-                    binding.deviceSnDetail.text = device.Server_Event
-                    binding.deviceDetailHomeNumber.text = device.PK_Device.toString()
+                    binding.deviceMacDetail.text = device.MacAddress
+                    binding.deviceSnDetail.text = device.PK_Device.toString()
+                    binding.deviceDetailHomeNumber.text = device.Platform
                     binding.deviceFirmwareDetail.text = device.Firmware
-                    binding.newsDescrssiption.text = device.InternalIP
+
 
                 }
-            }else{
+            } else {
                 deviceBinding.apply {
                     binding.deviceMacDetail.text = "null"
                     binding.deviceSnDetail.text = "null"
@@ -80,7 +93,7 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
                 }
             }
 
-        }else{
+        } else {
             deviceBinding.apply {
                 binding.deviceMacDetail.text = "null"
                 binding.deviceSnDetail.text = "null"

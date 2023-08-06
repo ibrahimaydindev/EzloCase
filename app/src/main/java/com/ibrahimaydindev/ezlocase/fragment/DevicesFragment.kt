@@ -1,16 +1,13 @@
 package com.ibrahimaydindev.ezlocase.fragment
 
+import android.app.AlertDialog
 import android.content.ContentValues.TAG
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.AbsListView
-import androidx.activity.viewModels
 import androidx.lifecycle.Observer
-import androidx.navigation.Navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -18,15 +15,13 @@ import com.ibrahimaydindev.ezlocase.R
 import com.ibrahimaydindev.ezlocase.activity.MainActivity
 import com.ibrahimaydindev.ezlocase.adapter.DeviceAdapter
 import com.ibrahimaydindev.ezlocase.databinding.FragmentDevicesBinding
-import com.ibrahimaydindev.ezlocase.repository.DeviceRepository
 import com.ibrahimaydindev.ezlocase.util.Resource
 import com.ibrahimaydindev.ezlocase.viewmodel.DeviceViewModel
-
 
 class DevicesFragment : Fragment(R.layout.fragment_devices) {
     private lateinit var deviceBinding: FragmentDevicesBinding
     private lateinit var deviceViewModel: DeviceViewModel
-    lateinit var deviceAdapter: DeviceAdapter
+    private lateinit var deviceAdapter: DeviceAdapter
 
     var isLoading = false
     var isLastPage = false
@@ -36,13 +31,26 @@ class DevicesFragment : Fragment(R.layout.fragment_devices) {
         super.onViewCreated(view, savedInstanceState)
         val binding = FragmentDevicesBinding.bind(view)
         deviceBinding = binding
-        deviceViewModel = (activity as MainActivity).viewModel
         deviceAdapter = DeviceAdapter()
+        deviceViewModel = (activity as MainActivity).viewModel
         observeLiveData()
         setupRecyclerView()
+
         deviceAdapter.setOnItemClickListener {
             val bundle = Bundle().apply {
                 putSerializable("device", it)
+            }
+            deviceAdapter.setOnItemLongClickListener { it ->
+                val device = deviceAdapter.differ.currentList[it.id?.toInt()!!]
+                val alertDialog = AlertDialog.Builder(requireContext())
+                alertDialog.setTitle("Delete Item")
+                alertDialog.setMessage("Are you sure you want to delete this device?")
+                alertDialog.setPositiveButton("Yes") { _, _ ->
+                    deviceAdapter.differ.currentList.toMutableList().remove(device)
+                }
+                alertDialog.setNegativeButton("No") { _, _ -> }
+                alertDialog.create().show()
+
             }
             findNavController().navigate(
                 R.id.action_devicesFragment_to_detailFragment,
@@ -50,6 +58,7 @@ class DevicesFragment : Fragment(R.layout.fragment_devices) {
             )
         }
     }
+
     private fun setupRecyclerView() {
         deviceBinding.recyclerView.apply {
             adapter = deviceAdapter
@@ -76,7 +85,6 @@ class DevicesFragment : Fragment(R.layout.fragment_devices) {
                 isScrolling = true
             }
         }
-
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
             super.onScrolled(recyclerView, dx, dy)
             val layoutManager = recyclerView.layoutManager as LinearLayoutManager
@@ -94,7 +102,6 @@ class DevicesFragment : Fragment(R.layout.fragment_devices) {
             }
         }
     }
-
     private fun observeLiveData() {
         deviceViewModel.getDevices.observe(viewLifecycleOwner, Observer { response ->
             when (response) {
@@ -111,7 +118,6 @@ class DevicesFragment : Fragment(R.layout.fragment_devices) {
                         Log.e(TAG, "Error : $message")
                     }
                 }
-
                 is Resource.Loading -> {
                     showProgressBar()
                 }

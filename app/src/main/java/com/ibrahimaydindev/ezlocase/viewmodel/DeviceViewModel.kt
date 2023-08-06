@@ -3,8 +3,7 @@ package com.ibrahimaydindev.ezlocase.viewmodel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ibrahimaydindev.ezlocase.model.Device
-import com.ibrahimaydindev.ezlocase.model.Iot
+import com.ibrahimaydindev.ezlocase.model.Deviceresponse
 import com.ibrahimaydindev.ezlocase.repository.DeviceRepository
 import com.ibrahimaydindev.ezlocase.util.Resource
 import kotlinx.coroutines.launch
@@ -14,21 +13,15 @@ class DeviceViewModel(
     private val repository: DeviceRepository
 ) : ViewModel() {
 
-    val getDevices: MutableLiveData<Resource<Iot>> = MutableLiveData()
+    val getDevices: MutableLiveData<Resource<Deviceresponse>> = MutableLiveData()
     var getDevicesPage = 1
-    var getDevicesResponse: Iot? = null
+    var getDevicesResponse: Deviceresponse? = null
 
     init {
-        getDevices()
+       getDevices()
     }
 
-    fun getDevices() = viewModelScope.launch {
-        getDevices.postValue(Resource.Loading())
-        val response = repository.getRealDevices()
-        getDevices.postValue(handleNewsResponse(response))
-    }
-
-    private fun handleNewsResponse(response: Response<Iot>): Resource<Iot> {
+    private fun handleDevicesResponse(response: Response<Deviceresponse>): Resource<Deviceresponse> {
         if (response.isSuccessful) {
             response.body()?.let { resultResponse ->
                 getDevicesPage++
@@ -44,13 +37,9 @@ class DeviceViewModel(
         }
         return Resource.Error(response.message())
     }
-
-    fun saveDevice(device: Device) = viewModelScope.launch {
-        repository.insertDevice(device)
+    fun getDevices() = viewModelScope.launch {
+        getDevices.postValue(Resource.Loading())
+        val response = repository.getRealDevices()
+        getDevices.postValue(handleDevicesResponse(response))
     }
-
-    fun deleteDevice(device: Device) = viewModelScope.launch {
-        repository.deleteDevice(device)
-    }
-
 }

@@ -11,7 +11,12 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.ibrahimaydindev.ezlocase.R
 import com.ibrahimaydindev.ezlocase.adapter.DeviceAdapter.DeviceViewHolder
+import com.ibrahimaydindev.ezlocase.database.DeviceDatabase
 import com.ibrahimaydindev.ezlocase.model.Device
+import com.ibrahimaydindev.ezlocase.repository.DeviceRepository
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class DeviceAdapter : RecyclerView.Adapter<DeviceViewHolder>() {
 
@@ -75,9 +80,8 @@ class DeviceAdapter : RecyclerView.Adapter<DeviceViewHolder>() {
                     findViewById<ImageView>(R.id.deviceImage).setImageResource(R.drawable.vera_edge_big)
                 }
             }
-
             findViewById<TextView>(R.id.deviceHomeNumber).text = devices.Platform
-            findViewById<TextView>(R.id.deviceSnNumber).text = devices.MacAddress
+            findViewById<TextView>(R.id.deviceSnNumber).text = devices.PK_Device.toString()
             setOnClickListener {
                 onItemClickListener?.let {
                     it(devices)
@@ -88,24 +92,28 @@ class DeviceAdapter : RecyclerView.Adapter<DeviceViewHolder>() {
                 builder.setTitle("Delete Device")
                 builder.setMessage("Are you sure you want to delete this device?")
                 builder.setPositiveButton("Yes") { dialog, which ->
-                    differ.currentList.removeAt(position)
+                    onItemLongClickListener?.let {
+                        val repository = DeviceRepository(DeviceDatabase(context))
+                        CoroutineScope(Dispatchers.Default).launch {
+                            repository.deleteDevice(devices)
+                        }
+                    }
                 }
                 builder.setNegativeButton("No") { dialog, which ->
                     dialog.dismiss()
                 }
                 builder.show()
                 true
-
             }
         }
     }
 
-
     fun setOnItemClickListener(listen: (Device) -> Unit) {
         onItemClickListener = listen
     }
-
     private var onItemClickListener: ((Device) -> Unit)? = null
-
-
+    fun setOnItemLongClickListener(listen: (Device) -> Unit) {
+        onItemLongClickListener = listen
+    }
+    private var onItemLongClickListener: ((Device) -> Unit)? = null
 }
